@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Easter Egg Hunt 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --pink: #FFD6E8;
+    --mint: #D4F1E0;
+    --lavender: #E8D5F2;
+    --butter: #FFF4C2;
+    --text: #5C4A6E;
+    --accent: #FF8FB8;
+  }
+
+  html, body { height: 100%; }
+
+  body {
+    font-family: 'Fredoka', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color: var(--text);
+    background: linear-gradient(135deg, var(--pink) 0%, var(--butter) 25%, var(--mint) 55%, var(--lavender) 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* Floating decorative eggs */
+  .egg {
+    position: fixed;
+    font-size: 2.5rem;
+    opacity: 0.55;
+    animation: float 8s ease-in-out infinite;
+    pointer-events: none;
+    user-select: none;
+  }
+  .egg:nth-child(1) { top: 8%; left: 6%; animation-delay: 0s; }
+  .egg:nth-child(2) { top: 18%; right: 8%; animation-delay: 1.4s; font-size: 3rem; }
+  .egg:nth-child(3) { bottom: 12%; left: 10%; animation-delay: 2.8s; font-size: 2.8rem; }
+  .egg:nth-child(4) { bottom: 20%; right: 12%; animation-delay: 0.7s; }
+  .egg:nth-child(5) { top: 45%; left: 3%; animation-delay: 3.5s; font-size: 2rem; }
+  .egg:nth-child(6) { top: 55%; right: 4%; animation-delay: 2.1s; font-size: 2.2rem; }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(-8deg); }
+    50% { transform: translateY(-22px) rotate(8deg); }
+  }
+
+  .card {
+    position: relative;
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 28px;
+    padding: 2.5rem 2rem;
+    box-shadow: 0 20px 60px rgba(92, 74, 110, 0.15);
+    max-width: 640px;
+    width: 100%;
+    text-align: center;
+    border: 2px solid rgba(255, 255, 255, 0.8);
+  }
+
+  h1 {
+    font-weight: 700;
+    font-size: clamp(1.75rem, 5vw, 2.5rem);
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.5px;
+  }
+
+  .subtitle {
+    font-weight: 400;
+    font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+    margin-bottom: 2rem;
+    opacity: 0.85;
+  }
+
+  .code-inputs {
+    display: flex;
+    gap: 0.4rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 1.25rem;
+  }
+
+  .code-inputs input {
+    width: clamp(2rem, 7vw, 2.8rem);
+    height: clamp(2.6rem, 9vw, 3.4rem);
+    text-align: center;
+    font-family: 'Fredoka', monospace;
+    font-size: clamp(1.2rem, 4vw, 1.6rem);
+    font-weight: 600;
+    color: var(--text);
+    background: rgba(255, 255, 255, 0.85);
+    border: 2.5px solid var(--pink);
+    border-radius: 14px;
+    outline: none;
+    transition: all 0.2s ease;
+    text-transform: lowercase;
+  }
+
+  .code-inputs input:focus {
+    border-color: var(--accent);
+    background: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(255, 143, 184, 0.3);
+  }
+
+  .code-inputs input.filled {
+    background: var(--butter);
+    border-color: var(--accent);
+  }
+
+  .message {
+    min-height: 1.5rem;
+    font-weight: 500;
+    font-size: 1rem;
+    margin-top: 0.5rem;
+    transition: opacity 0.2s ease;
+  }
+
+  .message.error { color: #d4507a; }
+  .message.success { color: #4a9b6e; }
+
+  .shake { animation: shake 0.45s cubic-bezier(.36,.07,.19,.97) both; }
+
+  @keyframes shake {
+    10%, 90% { transform: translateX(-2px); }
+    20%, 80% { transform: translateX(3px); }
+    30%, 50%, 70% { transform: translateX(-6px); }
+    40%, 60% { transform: translateX(6px); }
+  }
+
+  .hint {
+    margin-top: 1.5rem;
+    font-size: 0.85rem;
+    opacity: 0.6;
+  }
+</style>
+</head>
+<body>
+  <span class="egg">🥚</span>
+  <span class="egg">🐰</span>
+  <span class="egg">🌸</span>
+  <span class="egg">🥚</span>
+  <span class="egg">🐣</span>
+  <span class="egg">🌷</span>
+
+  <main class="card" id="card">
+    <h1>🐰 Easter Egg Hunt 🥚</h1>
+    <p class="subtitle">Enter the secret code to find the Money Bunny's treasure!</p>
+
+    <form class="code-inputs" id="codeForm" autocomplete="off">
+      <input type="text" maxlength="1" inputmode="text" aria-label="Code digit 1">
+      <input type="text" maxlength="1" inputmode="text" aria-label="Code digit 2">
+      <input type="text" maxlength="1" inputmode="text" aria-label="Code digit 3">
+      <input type="text" maxlength="1" inputmode="text" aria-label="Code digit 4">
+      <input type="text" maxlength="1" inputmode="text" aria-label="Code digit 5">
+      <input type="text" maxlength="1" inputmode="text" aria-label="Code digit 6">
+      <input type="text" maxlength="1" inputmode="text" aria-label="Code digit 7">
+      <input type="text" maxlength="1" inputmode="text" aria-label="Code digit 8">
+      <input type="text" maxlength="1" inputmode="text" aria-label="Code digit 9">
+      <input type="text" maxlength="1" inputmode="text" aria-label="Code digit 10">
+    </form>
+
+    <div class="message" id="message"></div>
+    <p class="hint">Hint: it's how you feel on your best days ✨</p>
+  </main>
+
+<script>
+  const CODE = "invincible";
+  const inputs = Array.from(document.querySelectorAll('.code-inputs input'));
+  const message = document.getElementById('message');
+  const card = document.getElementById('card');
+
+  inputs[0].focus();
+
+  inputs.forEach((input, idx) => {
+    input.addEventListener('input', (e) => {
+      const val = e.target.value.toLowerCase();
+      e.target.value = val;
+      if (val) {
+        e.target.classList.add('filled');
+        if (idx < inputs.length - 1) inputs[idx + 1].focus();
+      } else {
+        e.target.classList.remove('filled');
+      }
+      checkComplete();
+    });
+
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Backspace' && !e.target.value && idx > 0) {
+        inputs[idx - 1].focus();
+        inputs[idx - 1].value = '';
+        inputs[idx - 1].classList.remove('filled');
+      } else if (e.key === 'ArrowLeft' && idx > 0) {
+        inputs[idx - 1].focus();
+      } else if (e.key === 'ArrowRight' && idx < inputs.length - 1) {
+        inputs[idx + 1].focus();
+      }
+    });
+
+    input.addEventListener('paste', (e) => {
+      e.preventDefault();
+      const text = (e.clipboardData || window.clipboardData).getData('text').toLowerCase().replace(/\s/g, '');
+      for (let i = 0; i < inputs.length; i++) {
+        inputs[i].value = text[i] || '';
+        if (text[i]) inputs[i].classList.add('filled');
+        else inputs[i].classList.remove('filled');
+      }
+      const lastFilled = Math.min(text.length, inputs.length) - 1;
+      if (lastFilled >= 0) inputs[Math.min(lastFilled + 1, inputs.length - 1)].focus();
+      checkComplete();
+    });
+  });
+
+  function checkComplete() {
+    const entered = inputs.map(i => i.value).join('').toLowerCase();
+    if (entered.length === CODE.length) {
+      if (entered === CODE) {
+        message.textContent = "🎉 You found it! Hop on over... 🐇";
+        message.className = 'message success';
+        setTimeout(() => { window.location.href = "easter2026/"; }, 700);
+      } else {
+        message.textContent = "Oops! That's not quite right. Try again! 🌸";
+        message.className = 'message error';
+        card.classList.remove('shake');
+        void card.offsetWidth;
+        card.classList.add('shake');
+        setTimeout(() => {
+          inputs.forEach(i => { i.value = ''; i.classList.remove('filled'); });
+          inputs[0].focus();
+          message.textContent = '';
+        }, 1200);
+      }
+    } else {
+      message.textContent = '';
+      message.className = 'message';
+    }
+  }
+</script>
+</body>
+</html>
